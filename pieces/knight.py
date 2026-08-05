@@ -5,9 +5,9 @@ class Knight(Piece):
         super().__init__(color)
     def __str__(self):
         if self.color=="black":
-            return "k"
+            return "n"
         else:
-            return "K"
+            return "N"
     def get_moves(self, board, row, col):
         offsets = [(-2, -1), (-2, 1),(-1, -2), (-1, 2),(1, -2),  (1, 2),(2, -1),  (2, 1)]
         moves=[]
