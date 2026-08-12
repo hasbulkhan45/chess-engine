@@ -1,5 +1,5 @@
 import numpy as np
-from piece import Piece
+from engine.piece import Piece
 from pieces.pawn import Pawn
 from pieces.rook import Rook
 from pieces.knight import Knight
@@ -48,7 +48,7 @@ class Board:
         self.board[end_row,end_col]=piece
         self.board[start_row,start_col]=None
 
-        piece.is_moved()==True
+        piece.is_moved=True
 
         if self.turn == "white":
             self.turn = "black"
