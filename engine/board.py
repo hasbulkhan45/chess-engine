@@ -33,6 +33,7 @@ class Board:
         return output
     def make_move(self,start_row,start_col,end_row,end_col):
         piece=self.board[start_row,start_col]
+        captured_piece=self.board[end_row,end_col]
 
         if piece is None:
             print(f"No piece selected")
@@ -48,8 +49,12 @@ class Board:
         self.board[end_row,end_col]=piece
         self.board[start_row,start_col]=None
 
-        piece.is_moved=True
-
+        if self.is_in_check(piece.color):
+            self.board[start_row, start_col] = piece
+            self.board[end_row, end_col] = captured_piece
+            print("Move leaves king in check")
+            return False
+        piece.is_moved = True
         if self.turn == "white":
             self.turn = "black"
         else:
