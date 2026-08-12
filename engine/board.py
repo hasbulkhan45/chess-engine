@@ -56,3 +56,41 @@ class Board:
             self.turn = "white"
 
         return True
+
+    def is_in_check(self, color):
+        all_moves = []
+        pieces = []
+        my_king = None
+
+        for row in range(8):
+            for col in range(8):
+                piece = self.board[row, col]
+
+                
+                if isinstance(piece, Pawn) and piece.color != color:
+                    direction = 1 if piece.color == "black" else -1
+                    new_row = row + direction
+
+                    if 0 <= new_row < 8:
+                        if 0 <= col - 1 < 8:
+                            all_moves.append((new_row, col - 1))
+
+                        if 0 <= col + 1 < 8:
+                            all_moves.append((new_row, col + 1))
+
+                
+                elif piece is not None and piece.color != color:
+                    pieces.append((piece, row, col))
+
+                
+                elif isinstance(piece, King) and piece.color == color:
+                    my_king = (row, col)
+
+        
+        for piece, row, col in pieces:
+            moves = piece.get_moves(self.board, row, col)
+
+            for move in moves:
+                all_moves.append(move)
+
+        return my_king in all_moves
