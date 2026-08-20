@@ -99,3 +99,53 @@ class Board:
                 all_moves.append(move)
 
         return my_king in all_moves
+    
+    def checkmate(self, color):
+
+        # If the king isn't currently in check,
+        # it cannot be checkmate.
+        if not self.is_in_check(color):
+            return False
+
+        pieces = []
+
+        # Find every piece belonging to the player in check
+        for row in range(8):
+            for col in range(8):
+                piece = self.board[row, col]
+
+                if piece is not None and piece.color == color:
+                    pieces.append((piece, row, col))
+
+        # Try every possible move of every piece
+        for piece, start_row, start_col in pieces:
+
+            moves = piece.get_moves(
+                self.board,
+                start_row,
+                start_col
+            )
+
+            for end_row, end_col in moves:
+
+                # Save whatever is currently on the destination
+                captured_piece = self.board[end_row, end_col]
+
+                # Temporarily make the move
+                self.board[end_row, end_col] = piece
+                self.board[start_row, start_col] = None
+
+                # Check whether this move gets the king out of check
+                still_in_check = self.is_in_check(color)
+
+                # Undo the temporary move
+                self.board[start_row, start_col] = piece
+                self.board[end_row, end_col] = captured_piece
+
+                # If even ONE move saves the king,
+                # it isn't checkmate.
+                if not still_in_check:
+                    return False
+
+        # We were in check and no move could save the king
+        return True
