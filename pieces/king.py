@@ -1,8 +1,11 @@
 from engine.piece import Piece
 
+
 class King(Piece):
     def __init__(self, color):
         super().__init__(color)
+        self.piece_type = "k"
+        self.value = 20000
 
     def __str__(self):
         if self.color == "black":
@@ -25,7 +28,6 @@ class King(Piece):
 
             if 0 <= new_row < 8 and 0 <= new_col < 8:
                 piece = board[new_row, new_col]
-
                 if piece is None or piece.color != self.color:
                     moves.append((new_row, new_col))
 
